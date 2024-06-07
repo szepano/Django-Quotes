@@ -18,6 +18,9 @@ class Author(Document):
     meta = {'collection': 'author'
     }
 
+    def __str__(self):
+        return self.name
+
 class Quote(Document):
     quote = StringField(required=True)
     tags = ListField(EmbeddedDocumentField(Tag))

@@ -1,17 +1,22 @@
 {% extends 'quotes/base.html' %}
 {% block content %}
 
-<h1>Quotes</h1>
-<ul>
-    {% for quote in page_obj %}
-    <li>
-        <h3>{{ quote.quote }} by <a href="/author_about/{{ quote.author.pk }}">{{ quote.author.name }}</a></h3>
-        {% for tag in quote.tags %}
-            <a>{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Authors</title>
+</head>
+
+<main>
+    <h1>Authors:</h1>
+    <ul>
+        {% for author in page_obj %}
+        <li>
+            <a href="{% url 'author_about' author.pk %}">{{ author.name }}</a>
+        </li>
         {% endfor %}
-    </li>
-    {% endfor %}
-</ul>
+    </ul>
+</main>
 
 <div class="paginator">
     <span class="step-links">

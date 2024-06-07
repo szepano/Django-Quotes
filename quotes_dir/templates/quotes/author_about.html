@@ -1,0 +1,16 @@
+{% extends 'quotes/base.html'}
+{% block content %}
+
+<main class="author_block">
+    <h2>{{ author.name }}</h2>
+    Description:
+    <p class="description">{{ author.description }}</p>
+</main>
+
+<aside>
+    <ul>
+        <li>Birth: {{ author.born }}</li>
+        <li>Born: {{ author.born_in }}</li>
+    </ul>
+</aside>
+{% endblock %}
