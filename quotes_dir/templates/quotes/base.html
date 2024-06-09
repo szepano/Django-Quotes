@@ -9,8 +9,16 @@
 </head>
 <body>
     <header>
-        <nav>
-            <p>Wstępny header <a href="/">Home</a></p>
+        <nav class="navbar">
+            Wstępny header <a class ="navbar_center" href="/">Home</a>
+            <div class="navbar_right">
+                {% if user.is_authenticated %}
+                    <a href="/logout" style="text-align: right;">Logout</a>
+                {% else %}
+                    <a href="/register">Register</a>
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
         </nav>
     </header>
     <main>

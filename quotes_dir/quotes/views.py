@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Quote, Tag, Author
 import requests
 from django.core.paginator import Paginator
+from .forms import UserRegisterForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
 
 def home(request):
@@ -29,3 +32,35 @@ def author_about(request, author_id):
 def quotes_by_tag(request, tag):
     quotes = Quote.objects(tags__name=tag)
     return render(request, 'quotes/quotes_by_tag.html', {'quotes': quotes})
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quotes:home')
+        else:
+            return render(request, 'quotes/register.html', context={'form': form})
+        
+    return render(request, 'quotes/register.html', context={'form': UserRegisterForm()})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect(to='quotes:home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'quotes/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect(to='quotes:home')

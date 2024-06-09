@@ -9,12 +9,28 @@ main {
     background-color: pink;
 }
 
-.author_block {
-    flex: 1;
-    margin-right: 200;
+.home_page {
+    width: 100%;
 }
+
+.buttons_list {
+    text-align: center;
+}
+
 
 aside {
     background-color: rgb(238, 88, 238);
     flex: 0 0 200px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar_center {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
 }
