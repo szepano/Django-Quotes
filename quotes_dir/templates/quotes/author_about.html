@@ -1,13 +1,21 @@
-{% extends 'quotes/base.html'}
+{% extends 'quotes/base.html' %}
 {% block content %}
 
-<main class="author_block">
+<div class="author_block">
     <h2>{{ author.name }}</h2>
     Description:
-    <p class="description">{{ author.description }}</p>
-</main>
+    <p class="description">{{ author.desc }}</p>
+<div class="author_quotes">
+    <h3>Author quotes:</h3>
+    <ul>
+        {% for quote in author_quotes %}
+        <li><i>{{ quote.quote }}</i></li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
 
-<aside>
+<aside class="right">
     <ul>
         <li>Birth: {{ author.born }}</li>
         <li>Born: {{ author.born_in }}</li>

@@ -1,6 +1,20 @@
 h1 {
     color: red !important;
+    text-align: center;
 }
 main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background-color: pink;
+}
+
+.author_block {
+    flex: 1;
+    margin-right: 200;
+}
+
+aside {
+    background-color: rgb(238, 88, 238);
+    flex: 0 0 200px;
 }

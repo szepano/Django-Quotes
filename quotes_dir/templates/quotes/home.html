@@ -1,11 +1,15 @@
 {% extends 'quotes/base.html' %}
 {% block content %}
 
-{% load static %}
+<div class="home_page">
+    <div class="container p-5">
+        <h1 style="text-align: center;">Welcome to the Quotes by Szczepan</h1>
+        <p style="text-align: center;">Enjoy the 'experience'</p>
+    </div>
 
-<link rel="stylesheet" href="{% static 'style.css' %}">
-<div class="container p-5">
-    <h1 style="text-align: center;">Welcome to the Quotes by Szczepan</h1>
-    <p style="text-align: center;">Enjoy the 'experience'</p>
+    <div class="buttons_list" style="background-color: purple; text-align: center;">
+        <button><a href="/authors">Authors</a></button>
+        <button><a href='/quotes'>Quotes</a></button>
+    </div>
 </div>
 {% endblock %}

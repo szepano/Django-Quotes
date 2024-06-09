@@ -5,9 +5,9 @@
 <ul>
     {% for quote in page_obj %}
     <li>
-        <h3>{{ quote.quote }} by <a href="/author_about/{{ quote.author.pk }}">{{ quote.author.name }}</a></h3>
+        <h4>{{ quote.quote }} by <a href="/author_about/{{ quote.author.pk }}">{{ quote.author.name }}</a></h3>
         {% for tag in quote.tags %}
-            <a>{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+            <a href="/quotes_by_tag/{{ tag.name }}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}
     </li>
     {% endfor %}

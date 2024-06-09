@@ -12,7 +12,7 @@
     <ul>
         {% for author in page_obj %}
         <li>
-            <a href="{% url 'author_about' author.pk %}">{{ author.name }}</a>
+            <a href="/author_about/{{ author.id }}">{{ author.name}}</a>
         </li>
         {% endfor %}
     </ul>
