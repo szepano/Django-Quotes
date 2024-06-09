@@ -5,7 +5,8 @@ from django.core.paginator import Paginator
 from .forms import UserRegisterForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
-# Create your views here.
+from django.contrib.auth.decorators import login_required
+from .forms import AuthorForm, QuoteForm
 
 def home(request):
     return render(request, 'quotes/home.html')
@@ -64,3 +65,14 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect(to='quotes:home')
+
+@login_required
+def add_author(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quotes:home')
+    else:
+        form = AuthorForm()
+    return render(request, 'quotes/add_author.html', {'form': form})

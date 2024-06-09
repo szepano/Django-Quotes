@@ -10,10 +10,13 @@
 <body>
     <header>
         <nav class="navbar">
-            Wstępny header <a class ="navbar_center" href="/">Home</a>
+            {% if user.is_authenticated %}
+            <a class="navbar_left" href="/add_author">Add author</a>
+            {% endif %}
+            <a class ="navbar_center" href="/">Home</a>
             <div class="navbar_right">
                 {% if user.is_authenticated %}
-                    <a href="/logout" style="text-align: right;">Logout</a>
+                    <a href="/logout">Logout</a>
                 {% else %}
                     <a href="/register">Register</a>
                     <a href="/login">Login</a>

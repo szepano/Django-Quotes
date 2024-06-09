@@ -29,6 +29,12 @@ aside {
     align-items: center;
 }
 
+.navbar_right {
+    flex-grow: 1;
+    display: flex;
+    justify-content: left;
+}
+
 .navbar_center {
     flex-grow: 1;
     display: flex;
