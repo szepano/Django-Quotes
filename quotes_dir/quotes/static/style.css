@@ -1,7 +1,37 @@
+header {
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar_left {
+    flex: 0 0 auto;
+}
+
+.navbar_right {
+    flex: 1;
+    display: flex;
+    justify-content: left;
+    width: 100%;
+}
+
+.navbar_center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 h1 {
     color: red !important;
     text-align: center;
 }
+
 main {
     display: flex;
     flex-direction: row;
@@ -21,22 +51,4 @@ main {
 aside {
     background-color: rgb(238, 88, 238);
     flex: 0 0 200px;
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar_right {
-    flex-grow: 1;
-    display: flex;
-    justify-content: left;
-}
-
-.navbar_center {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
 }
