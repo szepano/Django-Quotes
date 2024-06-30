@@ -1,12 +1,21 @@
 from django.shortcuts import render, redirect
 from .models import Quote, Tag, Author
 import requests
+from django.core.mail import send_mail
+from quotes_dir import settings
+from .forms import PasswordResetForm
 from django.core.paginator import Paginator
 from .forms import UserRegisterForm
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from django.contrib.auth.decorators import login_required
 from .forms import AuthorForm, QuoteForm
+import secrets
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_str
+from django.template.loader import render_to_string
 
 def home(request):
     return render(request, 'quotes/home.html')
@@ -87,3 +96,57 @@ def add_quote(request):
     else:
         form = QuoteForm()
     return render(request, 'quotes/add_quote.html', {'form': form})
+
+
+def password_reset_request(request):
+    if request.method == "POST":
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            user = User.objects.get(email=email)
+            new_password = secrets.token_urlsafe(12)
+            user.set_password(new_password)
+            user.save()
+
+            token = default_token_generator.make_token(user)
+
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_url = request.build_absolute_uri('/reset_password/confirm/{}/{}'.format(uid, token))
+
+            subject = 'Password reset'
+            message = render_to_string('quotes/password_reset_email.html', {
+                'user': user,
+                'reset_url': reset_url
+            })
+            email_from = settings.EMAIL_HOST
+            recipients = [email]
+            send_mail(subject, message, email_from, recipients)
+
+            return render(request, 'quotes/password_reset_done.html')
+    else:
+        form = PasswordResetForm()
+    return render(request, 'quotes/password_reset_form.html', {'form': form})
+
+
+def password_reset_confirm(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except Exception as e:
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            form = SetPasswordForm(user, request.POST)
+            if form.is_valid():
+                form.save()
+                new_password = form.cleaned_data.get('new_password1')
+                user = authenticate(request, username=user.username, password=new_password)
+                login(request, user)
+                return render(request, 'quotes/password_reset_complete.html')
+            
+        else:
+            form = SetPasswordForm(user)
+        return render(request, 'quotes/password_reset_confirm.html', {'form': form})
+    else:
+        return render(request, 'quotes/password_reset_invalid.html')

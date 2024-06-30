@@ -2,7 +2,15 @@ from .models import Author, Tag, Quote
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from bson import ObjectId
+
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField(label='Email')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError('No user with given email')
+        return email
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()

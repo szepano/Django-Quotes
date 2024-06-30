@@ -2,3 +2,4 @@ django
 mongoengine
 requests
 beautifulsoup4
+django_environ

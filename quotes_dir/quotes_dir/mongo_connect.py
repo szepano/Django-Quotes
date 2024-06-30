@@ -1,5 +1,6 @@
 import mongoengine
+from .settings import env
 
 def connect_to_mongo():
-    mongoengine.connect(db='test',
-                        host='mongodb+srv://bartszczepan04:A501796b@firstcluster.dvmoxij.mongodb.net/test')
+    mongoengine.connect(db=env('DB_NAME'),
+                        host=env('DB_URL'))
